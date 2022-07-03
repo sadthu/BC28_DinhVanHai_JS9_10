@@ -14,11 +14,11 @@ function NhanVien () {
                 luong = this.luongCoBan * 3;
                 break;
             }
-            case 'Trưởng Phòng': {
+            case 'Trưởng phòng': {
                 luong = this.luongCoBan * 2;
                 break;
             }
-            case 'Nhân Viên': {
+            case 'Nhân viên': {
                 luong = this.luongCoBan;
                 break;
             }

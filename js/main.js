@@ -10,6 +10,11 @@ document.querySelector('#btnThemNV').onclick = function () {
     nv.chucVu = document.querySelector('#chucvu').value;
     nv.tongGioLam = document.querySelector('#gioLam').value;
 
+    // var disP = document.querySelector('.sp-thongbao').innerHTML;
+    // if (disP != '') {
+    //     document.querySelector('.sp-thongbao').style.display = 'block';
+    // }
+    
     var test = true;
 
     test &= kiemTraRong(nv.taiKhoan, '#tbTKNV', 'Tài khoản') & kiemTraRong(nv.hoTen, '#tbTen', 'Họ tên') & kiemTraRong(nv.email, '#tbEmail', 'email') &kiemTraRong(nv.matKhau, '#tbMatKhau', 'Mật khẩu') &kiemTraRong(nv.ngayLam, '#tbNgay', 'Ngày làm') & kiemTraRong(nv.luongCoBan, '#tbLuongCB', 'Lương cơ bản') &kiemTraRong(nv.tongGioLam, '#tbGiolam', 'Giờ làm');
@@ -43,7 +48,7 @@ function tableNhanVien (arrNhanVien) {
                 <td>${nv.LoaiNhanVien()}</td>
                 <td>
                     <button class="btn btn-danger ml-2" onclick="xoaNhanVien('${nv.taiKhoan}')">Xoá</button>
-                    <button class="btn btn-primary ml-2" onclick="suaNhanVien('${nv.taiKhoan}')">Sửa</button>
+                    <button class="btn btn-primary ml-2" data-toggle="modal" data-target="#myModal" onclick="suaNhanVien('${nv.taiKhoan}')">Sửa</button>
                 </td>
             </tr>
         `;
