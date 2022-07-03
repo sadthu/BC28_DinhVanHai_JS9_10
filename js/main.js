@@ -12,7 +12,13 @@ document.querySelector('#btnThemNV').onclick = function () {
 
     var test = true;
 
-    test &= kiemTraRong(nv.taiKhoan, '#tbTKNV', 'Tài khoản') & kiemTraRong(nv.hoTen, '#tbTKNV', 'Họ tên') & kiemTraRong(nv.email, '#tbTKNV', 'email') &kiemTraRong(nv.matKhau, '#tbTKNV', 'Mật khẩu') &kiemTraRong(nv.ngayLam, '#tbTKNV', 'Ngày làm') & kiemTraRong(nv.luongCoBan, '#tbTKNV', 'Lương cơ bản') &kiemTraRong(nv.tongGioLam, '#tbTKNV', 'Giờ làm');
+    test &= kiemTraRong(nv.taiKhoan, '#tbTKNV', 'Tài khoản') & kiemTraRong(nv.hoTen, '#tbTen', 'Họ tên') & kiemTraRong(nv.email, '#tbEmail', 'email') &kiemTraRong(nv.matKhau, '#tbMatKhau', 'Mật khẩu') &kiemTraRong(nv.ngayLam, '#tbNgay', 'Ngày làm') & kiemTraRong(nv.luongCoBan, '#tbLuongCB', 'Lương cơ bản') &kiemTraRong(nv.tongGioLam, '#tbGiolam', 'Giờ làm');
+
+    test &= kiemTraDoDai(nv.taiKhoan, '#tbTKNV1','Tài khoản', 4,6) & kiemTraDoDai(nv.matKhau, '#tbMatKhau1', 'Mậ khẩu', 6, 10);
+
+    test &= kiemTraEmail(nv.email,'#tbEmail1','Email') & kiemTraChucVu(nv.chucVu, '#tbChucVu') & kiemTraNgayThangNam(nv.ngayLam, '#tbNgay', 'Ngày làm');
+
+    test &= kiemTraTatCaKyTu(nv.hoTen, '#tbTen1', 'Họ tên') & kiemTraMatKhau(nv.matKhau, '#tbMatKhau2', 'Mật khẩu') & kiemTraGiaTri(nv.luongCoBan, '#tbLuongCB1','Lương cơ bản', 1e+6, 2e+7) & kiemTraGiaTri(nv.tongGioLam, '#tbGiolam1', 'Tổng giờ là', 80, 200);
 
     if(!!!test) {
         return ;
@@ -20,7 +26,6 @@ document.querySelector('#btnThemNV').onclick = function () {
 
     arrNhanVien.push(nv);
     tableNhanVien(arrNhanVien);
-
 }
 
 function tableNhanVien (arrNhanVien) {

@@ -22,9 +22,6 @@ function NhanVien () {
                 luong = this.luongCoBan;
                 break;
             }
-            default: {
-                document.querySelector('#tbChucVu').innerHTML = 'Chọn chức vụ';
-            }
         }
         return luong;
     };
