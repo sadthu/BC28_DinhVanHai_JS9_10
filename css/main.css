@@ -4,6 +4,10 @@
   display: none;
 }
 
+.hide {
+  display: inline-block;
+}
+
 #SapXepGiam{
 	display: none;
 }

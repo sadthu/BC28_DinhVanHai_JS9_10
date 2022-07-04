@@ -9,12 +9,7 @@ document.querySelector('#btnThemNV').onclick = function () {
     nv.luongCoBan = document.querySelector('#luongCB').value;
     nv.chucVu = document.querySelector('#chucvu').value;
     nv.tongGioLam = document.querySelector('#gioLam').value;
-
-    // var disP = document.querySelector('.sp-thongbao').innerHTML;
-    // if (disP != '') {
-    //     document.querySelector('.sp-thongbao').style.display = 'block';
-    // }
-    
+  
     var test = true;
 
     test &= kiemTraRong(nv.taiKhoan, '#tbTKNV', 'Tài khoản') & kiemTraRong(nv.hoTen, '#tbTen', 'Họ tên') & kiemTraRong(nv.email, '#tbEmail', 'email') &kiemTraRong(nv.matKhau, '#tbMatKhau', 'Mật khẩu') &kiemTraRong(nv.ngayLam, '#tbNgay', 'Ngày làm') & kiemTraRong(nv.luongCoBan, '#tbLuongCB', 'Lương cơ bản') &kiemTraRong(nv.tongGioLam, '#tbGiolam', 'Giờ làm');
@@ -24,19 +19,67 @@ document.querySelector('#btnThemNV').onclick = function () {
     test &= kiemTraEmail(nv.email,'#tbEmail1','Email') & kiemTraChucVu(nv.chucVu, '#tbChucVu') & kiemTraNgayThangNam(nv.ngayLam, '#tbNgay', 'Ngày làm');
 
     test &= kiemTraTatCaKyTu(nv.hoTen, '#tbTen1', 'Họ tên') & kiemTraMatKhau(nv.matKhau, '#tbMatKhau2', 'Mật khẩu') & kiemTraGiaTri(nv.luongCoBan, '#tbLuongCB1','Lương cơ bản', 1e+6, 2e+7) & kiemTraGiaTri(nv.tongGioLam, '#tbGiolam1', 'Tổng giờ là', 80, 200);
-
+ 
+    var testt = document.querySelectorAll('.sp-thongbao');
+    for (var i = 0; i < testt.length; i ++) {
+        if(testt[i].innerHTML !== '') {
+            testt[i].classList.add('hide');
+        } 
+        if(testt[i].innerHTML === '') {
+            testt[i].classList.remove('hide');
+        }
+    }
+    
     if(!!!test) {
         return ;
     }
 
     arrNhanVien.push(nv);
     tableNhanVien(arrNhanVien);
+
+    // var saveArrNhanVien = JSON.stringify(arrNhanVien);
+    saveLocal('arrNhanVien', JSON.stringify(arrNhanVien));
 }
 
 function tableNhanVien (arrNhanVien) {
     var htmlContent = '';
     for (var i = 0; i < arrNhanVien.length; i++) {
         var nv = arrNhanVien[i];
+        if(!nv.hasOwnProperty('tongLuong') || !nv.hasOwnProperty('LoaiNhanVien')) {
+            nv.tongLuong = function () {
+                var luong = 0;
+                switch (this.chucVu) {
+                    case 'Sếp': {
+                        luong = this.luongCoBan * 3;
+                        break;
+                    }
+                    case 'Trưởng phòng': {
+                        luong = this.luongCoBan * 2;
+                        break;
+                    }
+                    case 'Nhân viên': {
+                        luong = this.luongCoBan;
+                        break;
+                    }
+                }
+                return luong;
+            }
+
+            nv.LoaiNhanVien = function () {
+                var xepLoai = '';
+                if (this.tongGioLam >= 192) {
+                    xepLoai = 'Nhân Viên xuất sắc';
+                } else if (this.tongGioLam >= 176 && this.tongGioLam < 192) {
+                    xepLoai = 'Nhân Viên Giỏi';
+                } else if (this.tongGioLam >= 160 && this.tongGioLam < 176) {
+                    xepLoai = 'Nhân Viên Khá';
+                } else {
+                    xepLoai = 'Nhân Viên Trung Bình';
+                }
+                return xepLoai;
+            }
+            
+        }
         var tr = `
             <tr>
                 <td>${nv.taiKhoan}</td>
@@ -67,6 +110,7 @@ function xoaNhanVien(acc) {
     }
     arrNhanVien.splice(index,1);
     tableNhanVien(arrNhanVien);
+    saveLocal('arrNhanVien', JSON.stringify(arrNhanVien));
 }
 
 function suaNhanVien(acc) {
@@ -108,4 +152,23 @@ document.querySelector('#btnCapNhat').onclick = function () {
         }
     }
     tableNhanVien(arrNhanVien)
+    saveLocal('arrNhanVien', JSON.stringify(arrNhanVien));
+}
+
+function saveLocal (key, value) {
+    localStorage.setItem(key, value);
+}
+
+function takeLocal(key) {
+    if (localStorage.getItem(key)) {
+        return localStorage.getItem(key);
+    }
+    return undefined;
+}
+
+window.onload = function () {
+    if(takeLocal('arrNhanVien')) {
+        arrNhanVien = JSON.parse(takeLocal('arrNhanVien'));
+        tableNhanVien(arrNhanVien);
+    }
 }
